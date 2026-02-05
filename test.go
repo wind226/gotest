@@ -2,16 +2,26 @@ package main
 
 import (
     "fmt"
-    "os/exec"
+    "io"
+    "net/http"
 )
 
 func main() {
-    // 执行简单命令
-    cmd := exec.Command("ls", "-la")
-    output, err := cmd.Output()
+    // 发送 GET 请求
+    resp, err := http.Get("https://api.github.com")
     if err != nil {
         fmt.Println("Error:", err)
         return
     }
-    fmt.Println(string(output))
+    defer resp.Body.Close()
+    
+    // 读取响应
+    body, err := io.ReadAll(resp.Body)
+    if err != nil {
+        fmt.Println("Error:", err)
+        return
+    }
+    
+    fmt.Println("Status:", resp.Status)
+    fmt.Println("Body:", string(body))
 }
