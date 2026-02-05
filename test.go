@@ -8,7 +8,7 @@ import (
 
 func main() {
     // 发送 GET 请求
-    resp, err := http.Get("https://api.github.com")
+    resp, err := http.Get("http://127.0.0.1:8080")
     if err != nil {
         fmt.Println("Error:", err)
         return
